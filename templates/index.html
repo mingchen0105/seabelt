@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SeaBelt</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/statics/style.css">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+
+<body>
+    <div id="app">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#historyList"
+                    aria-controls="historyList" aria-expanded="false" aria-label="Toggle navigation" id="toggler">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="navbar-brand" id="titleArea">
+                    <img src="./statics/brand_icon.png" alt="brand_icon.png" class="d-inline-block align-text-top">
+                    <span>SeaBelt 推薦平台</span>
+                </div>
+
+                <div class="dropdown navbar-brand" id="userInfo">
+                    <div class="dropdown-toggle" id="userDropdownMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="{{pictureURL}}" alt="user picture" class="d-inline-block align-text-top">
+                        <span>{{name}}</span>
+                    </div>
+                    <ul class="dropdown-menu shadow" aria-labelledby="userDropdownMenu">
+                        <li><button class="dropdown-item" type="button" @click="logout">登出</button></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <aside class="collapse shadow p-4" id="historyList">
+            <div class="list-group">
+                <a href="#" class="list-group-item" aria-current="true" @click="clearMessage">
+                    + 開啟新對話
+                </a>
+                <div v-if="!userHistory" class="d-flex align-items-center text-light m-5">
+                    <strong>Loading...</strong>
+                    <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+                </div>
+                <template v-else-if="userHistory.length === 0">
+                    <a href="#" class="list-group-item list-group-item-action historyItem">點選商品紀錄將顯示在此...</a>
+                </template>
+                <template v-for="item in userHistory">
+                    <a :href="'https://opensea.io/collection/' + item['collection-slug']" target="_blank"
+                        class="list-group-item list-group-item-action historyItem" :title="item['collection-slug']">🛍️
+                        {[
+                        item['collection-name'] ]}</a>
+                </template>
+            </div>
+        </aside>
+
+        <main id="messageArea">
+            <message :messages="messages" @clicked="(slug) => clickedHistory = slug"></message>
+
+            <div class="textMsg output loading" id="loadingMessage">
+                <div class="card" aria-hidden="true">
+                    <div class="card-body">
+                        <p class="card-text placeholder-glow">
+                            <span class="placeholder col-12"></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <div id="inputArea">
+            <form class="row g-3 justify-content-center align-items-center" @submit.prevent="sendInput">
+                <div class="col-8">
+                    <label class="visually-hidden" for="inputText">輸入訊息</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="inputText" required v-model="newInput"
+                            placeholder="請輸入「我想要art類的商品」">
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <button class="btn">送出</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="errorMessage">
+            <div class="toast align-items-center text-white bg-danger border-0 fade" role="alert" aria-live="assertive"
+                aria-atomic="true" data-bs-animation="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        Oops！伺服器沒有回應，請稍後再試一次
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close" @click="error = null"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"></script>
+    <script type="importmap">
+        {
+            "imports": {
+                "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.prod.js"
+            }
+        }
+    </script>
+    <script src="/statics/main.js" type="module"></script>
+</body>
+
+</html>
