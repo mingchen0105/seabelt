@@ -4,6 +4,7 @@ from datetime import datetime, timezone, timedelta
 import requests
 from linebot import LineBotApi, WebhookHandler
 from linebot.models import ImageCarouselTemplate, ImageCarouselColumn, URIAction, TemplateSendMessage
+import re
 import json
 import configparser
 from urllib import parse
@@ -146,7 +147,8 @@ def index():
         sql = "SELECT * FROM user_info WHERE line_id=%s"
         val = (lineID,)
         user_info = database.read(sql, val)
-        if len(user_info) == 0:
+        print(user_info)
+        if user_info == None:
             sql = f"SELECT uid FROM user_info"
             add_user = database.readAll(sql)
             userID = len(add_user)+1
@@ -287,7 +289,9 @@ def classifyUserInput():
     labels = textClassifier.classify(inputToEng, 'all')
     result = dict()
     for label in labels:
-        if label[1] >= 0.5:
+        thisLabel = labelName[label[0]]
+        matchInStr = re.search(f'(?i){thisLabel}', inputToEng)
+        if label[1] >= 0.5 or matchInStr:
             params = {
                 'i': lineId,
                 'm': label[0],
@@ -395,4 +399,4 @@ def LineBotNFT():  # /api/linebotnft?slug=<collection_slug>&i=<userID>
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
