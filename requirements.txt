@@ -1,10 +1,4 @@
 flask
 line-bot-sdk
 requests
-pandas
 mysql.connector
-scikit-learn
-selenium
-webdriver-manager
-bs4
-lxml
