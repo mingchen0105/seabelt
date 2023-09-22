@@ -200,6 +200,18 @@ def line_login():
         return redirect(url)
 
 
+@app.route('/noline')
+def LocalLogin():
+    res = make_response(
+        redirect(url_for('index', userID='Ued4680f3266c04973d645b92b44d97b6')))
+    res.set_cookie(key="Name", value='測試用戶', expires=time.time()+30*60)
+    res.set_cookie(
+        key="lineID", value='U2c665631c1da1fa725382fd994b9e18f', expires=time.time()+30*60)
+    res.set_cookie(key="icon", value='/statics/profile.png',
+                   expires=time.time()+30*60)
+    return res
+
+
 @app.route('/api/q', methods=['GET'])
 def apiPOSTrequest():
     '''
@@ -399,4 +411,4 @@ def LineBotNFT():  # /api/linebotnft?slug=<collection_slug>&i=<userID>
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=False, host='0.0.0.0')

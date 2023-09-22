@@ -9,6 +9,10 @@
         integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/statics/style.css">
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"></script>
+    <script src="/statics/main.js" type="module" async></script>
 </head>
 
 <body>
@@ -30,8 +34,11 @@
                         <img src="{{pictureURL}}" alt="user picture" class="d-inline-block align-text-top">
                         <span>{{name}}</span>
                     </div>
+
                     <ul class="dropdown-menu shadow" aria-labelledby="userDropdownMenu">
-                        <li><button class="dropdown-item" type="button" @click="logout">登出</button></li>
+                        <li><a href="https://github.com/mingchen0105/seabelt" target="_blank" rel="noopener noreferrer"
+                                class="dropdown-item">查看原始碼</a></li>
+                        <li><button class="dropdown-item logout" type="button" @click="logout">登出</button></li>
                     </ul>
                 </div>
             </div>
@@ -100,18 +107,6 @@
             </div>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
-        crossorigin="anonymous"></script>
-    <script type="importmap">
-        {
-            "imports": {
-                "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.prod.js"
-            }
-        }
-    </script>
-    <script src="/statics/main.js" type="module"></script>
 </body>
 
 </html>

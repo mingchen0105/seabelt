@@ -58,6 +58,10 @@ nav {
 }
 
 #userInfo .dropdown-item {
+    margin: .25em 0;
+}
+
+#userInfo .logout {
     color: var(--bs-danger);
 }
 
